@@ -73,7 +73,8 @@ class SourceLight {
     let cssMap = cssDeserialize(fetch("sourcelight/theme/" + options.theme));
     for(var i = 0; i < elems.length; i++) {
       let item = elems[i];
-      item.innerHTML = SourceLight.lex(item.innerHTML.replace('&emsp;', '\t'), fetch("sourcelight/mode/" + options.mode), cssMap).replace('\t', "&emsp;");
+      item.innerHTML = SourceLight.lex(item.innerHTML.replace('&emsp;', '\t').replace("&amp;", "&"),
+      fetch("sourcelight/mode/" + options.mode), cssMap).replace("&", "&amp;").replace('\t', "&emsp;");
       item.setAttribute("style", cssMap['code.region']);
       item.classList.add('sourcelight-highlight-region');
     }
