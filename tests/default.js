@@ -39,5 +39,20 @@ define('sourcelight/theme/test-theme', {
   },
   keyword: {
     'font-weight': 'bold'
+  },
+  variable: {
+    'font-weight': 'bold',
+    language: {
+      'color': '#B21B39',
+      'font-weight': 'bold'
+    }
+  },
+  entity: {
+    name: {
+      function: {
+        'color': '#B21B39',
+        'font-weight': 'bold'
+      }
+    }
   }
 });

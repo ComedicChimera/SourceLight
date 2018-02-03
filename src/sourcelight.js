@@ -68,13 +68,31 @@ class SourceLight {
       return cssMap;
     }
 
+    function unescape(text) {
+      let unescapeMap = {
+          '&amp;': '&',
+          '&lt;': '<',
+          '&gt;': '>',
+          '&quot;': '"',
+          '&#x27;': "'",
+          '&#x60;': '`'
+      };
+      for(var special in unescapeMap) {
+        var regex = new RegExp(special, 'g');
+        if(!regex.test(text))
+          continue;
+        var component = unescapeMap[special];
+        text = text.replace(regex, component);
+      }
+      return text;
+    }
+
     checkOptions(options);
     let elems = select(options.selector);
     let cssMap = cssDeserialize(fetch("sourcelight/theme/" + options.theme));
     for(var i = 0; i < elems.length; i++) {
       let item = elems[i];
-      item.innerHTML = SourceLight.lex(item.innerHTML.replace('&emsp;', '\t').replace("&amp;", "&"),
-      fetch("sourcelight/mode/" + options.mode), cssMap).replace("&", "&amp;").replace('\t', "&emsp;");
+      item.innerHTML = SourceLight.lex(unescape(item.innerHTML), fetch("sourcelight/mode/" + options.mode), cssMap);
       item.setAttribute("style", cssMap['code.region']);
       item.classList.add('sourcelight-highlight-region');
     }
@@ -85,11 +103,13 @@ class SourceLight {
     for(var item in mode) {
       let mCase = mode[item];
       let name = mCase.token, regex = mCase.match, sub = mCase.sub;
+      if(!regex)
+        throw name + "does not have a match case.";
       let matches = text.match(mCase.single ? regex : new RegExp(regex, "g"));
       for(var match in matches) {
         match = matches[match];
-        phrases[text.indexOf(match)] = [match, name, sub];
-        text = text.replace(match, "\0".repeat(match.length), 1);
+        phrases[text.search(regex)] = [match, name, sub];
+        text = text.replace(regex, "\0".repeat(match.length), 1);
       }
     }
     let keys = Object.keys(phrases);
@@ -108,7 +128,7 @@ class SourceLight {
     if(p[2]) {
       p[0] = SourceLight.lex(p[0], p[2], theme);
     }
-    let className = "sourcelight-style-" + p[1].replace(".", "-");
+    let className = "sourcelight-style-" + p[1].replace(/\./g, "-");
     if(!Object.keys(theme).includes(p[1])) {
       let parents = p[1].split('.');
       let compositeName = parents[0];
