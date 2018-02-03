@@ -33,18 +33,37 @@ class SourceLight {
       }
 
     function cssDeserialize(theme) {
+      function generateStyles(styleSerial, name, cssMap) {
+        let css = "";
+        let styleNames = Object.keys(styleSerial);
+        let hasStyles = false;
+        for(var elem in styleNames) {
+          elem = styleNames[elem];
+          if(typeof styleSerial[elem] === "string") {
+            hasStyles = true;
+            css += elem + ":" + styleSerial[elem] + ";";
+          }
+          else {
+            let subMap = {};
+            for(var item in elem) {
+              generateStyles(styleSerial[elem], elem, subMap);
+            }
+            for(var subStyle in subMap) {
+              cssMap[name + "." + subStyle] = subMap[subStyle];
+            }
+          }
+        }
+        if(hasStyles)
+          cssMap[name] = css + "\"";
+        return cssMap;
+      }
+
       let tokenNames = Object.keys(theme);
       let cssMap = {};
       for(var item in tokenNames) {
         item = tokenNames[item];
-        let css = "";
         let styleSerial = theme[item];
-        let styleNames = Object.keys(styleSerial);
-        for(var elem in styleNames) {
-          elem = styleNames[elem];
-          css += elem + ":" + String(styleSerial[elem]) + ";";
-        }
-        cssMap[item] = css + "\"";
+        cssMap = generateStyles(styleSerial, item, cssMap);
       }
       return cssMap;
     }
@@ -54,8 +73,9 @@ class SourceLight {
     let cssMap = cssDeserialize(fetch("sourcelight/theme/" + options.theme));
     for(var i = 0; i < elems.length; i++) {
       let item = elems[i];
-      item.innerHTML = SourceLight.lex(item.innerHTML, fetch("sourcelight/mode/" + options.mode), cssMap);
+      item.innerHTML = SourceLight.lex(item.innerHTML.replace('&emsp;', '\t'), fetch("sourcelight/mode/" + options.mode), cssMap).replace('\t', "&emsp;");
       item.setAttribute("style", cssMap['code.region']);
+      item.classList.add('sourcelight-highlight-region');
     }
   }
 
@@ -64,7 +84,7 @@ class SourceLight {
     for(var item in mode) {
       let mCase = mode[item];
       let name = mCase.token, regex = mCase.match, sub = mCase.sub;
-      let matches = text.match(new RegExp(regex, "g"));
+      let matches = text.match(mCase.single ? regex : new RegExp(regex, "g"));
       for(var match in matches) {
         match = matches[match];
         phrases[text.indexOf(match)] = [match, name, sub];
@@ -85,11 +105,23 @@ class SourceLight {
 
   static generate(p, theme) {
     if(p[2]) {
-      p[0] = SourceLight.lex(p[0], p[2], theme, );
+      p[0] = SourceLight.lex(p[0], p[2], theme);
     }
-    if(!Object.keys(theme).includes(p[1]))
-      return "<span class=\"sourcelight-undefined\">" + p[0] + "</span>";
-    return "<span style=\"" + theme[p[1]] + "\">" + p[0] + "</span>";
+    let className = "sourcelight-style-" + p[1].replace(".", "-");
+    if(!Object.keys(theme).includes(p[1])) {
+      let parents = p[1].split('.');
+      let compositeName = parents[0];
+      parents.shift();
+      for(var item in parents) {
+        item = parents[item];
+        if(Object.keys(theme).includes(compositeName)) {
+          return "<span style=\"" + theme[compositeName] + "\" class=\"" + className + "\">" + p[0] + "</span>";
+        }
+        compositeName += '.' + item;
+      }
+      return "<span class=\"sourcelight-undefined " + className + "\">" + p[0] + "</span>";
+    }
+    return "<span style=\"" + theme[p[1]] + "\" class=\"" + className + "\">" + p[0] + "</span>";
   }
 }
 
