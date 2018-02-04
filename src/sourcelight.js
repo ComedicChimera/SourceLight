@@ -11,26 +11,18 @@ function fetch(name) {
 
 class SourceLight {
   static highlight(options) {
-    function checkOptions(op) {
-      if(!op.selector)
-        throw "selector field undefined.";
-      if(!op.mode)
-        throw "mode field undefined.";
-      if(!op.theme)
-        throw "theme field undefined.";
-    }
-
     function select(selector) {
-        if(selector.startsWith('#')) {
-          return [document.getElementById(selector.slice(1))];
-        }
-        else if(selector.startsWith('.')) {
-          return document.getElementsByClassName(selector.slice(1))
-        }
-        else {
-          return document.getElementsByTagName(selector);
-        }
+      selector = selector || 'code';
+      if(selector.startsWith('#')) {
+        return [document.getElementById(selector.slice(1))];
       }
+      else if(selector.startsWith('.')) {
+        return document.getElementsByClassName(selector.slice(1))
+      }
+      else {
+        return document.getElementsByTagName(selector);
+      }
+    }
 
     function cssDeserialize(theme) {
       function generateStyles(styleSerial, name, cssMap) {
@@ -87,14 +79,16 @@ class SourceLight {
       return text;
     }
 
-    checkOptions(options);
     let elems = select(options.selector);
+    options.theme = options.theme || 'default';
+    options.mode = options.mode || 'default';
     let cssMap = cssDeserialize(fetch("sourcelight/theme/" + options.theme));
     for(var i = 0; i < elems.length; i++) {
       let item = elems[i];
       item.innerHTML = SourceLight.lex(unescape(item.innerHTML), fetch("sourcelight/mode/" + options.mode), cssMap);
       item.setAttribute("style", cssMap['code.region']);
       item.classList.add('sourcelight-highlight-region');
+      item.classList.add('sourcelight-' + options.theme);
     }
   }
 
@@ -140,10 +134,76 @@ class SourceLight {
         }
         compositeName += '.' + item;
       }
-      return "<span class=\"sourcelight-undefined " + className + "\">" + p[0] + "</span>";
+      return "<span class=\"" + className + "\">" + p[0] + "</span>";
     }
     return "<span style=\"" + theme[p[1]] + "\" class=\"" + className + "\">" + p[0] + "</span>";
   }
 }
 
 SourceLight.mappings = {};
+
+// defaults
+define('sourcelight/theme/default', {
+  code: {
+    region: {
+      'border-radius': '5px',
+      'background-color': '#fff8f2',
+      'box-shadow': 'inset 0 0 2px #212121',
+      'display': 'block',
+      'font-size': '16px',
+      'white-space': 'pre-line',
+      'padding': '10px'
+    }
+  },
+  string: {
+    single: {
+      'color': '#aa0000'
+    },
+    double: {
+      'color': '#aa0000'
+    }
+  },
+  constant: {
+    language: {
+      'color': '#aa0000'
+    },
+    numeric: {
+      'color': '#0098ba'
+    }
+  },
+  storage: {
+    'font-weight': 'bold',
+    type: {
+      'font-weight': 'bold',
+      'color': '#389eff'
+    }
+  },
+  comment: {
+    'color': '#666666',
+    'font-style': 'italic',
+  },
+  keyword: {
+    'font-weight': 'bold'
+  },
+  variable: {
+    'font-weight': 'bold',
+    language: {
+      'color': '#B21B39',
+      'font-weight': 'bold'
+    }
+  },
+  entity: {
+    name: {
+      function: {
+        'color': '#B21B39',
+        'font-weight': 'bold'
+      },
+      type: {
+        'color': '#389eff',
+        'font-weight': 'bold'
+      }
+    }
+  }
+});
+
+define('sourcelight/mode/default', {});

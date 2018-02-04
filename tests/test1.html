@@ -5,25 +5,21 @@
     <title>Test1</title>
     <meta charset="utf-8"/>
     <script src="../src/sourcelight.js"></script>
-    <script src="syclone.js"></script>
-    <script src="default.js"></script>
+    <script src="../lib/mode/syclone.js"></script>
   </head>
   <body>
-    <code>// test
-    private $x : int = int(input());
-    if(x < 2) {
-    &emsp;println("hello!");
+    <code>func fib() &lt;- int {
+    &emsp;$a = 0;
+    &emsp;$b = 1;
+    &emsp;do {
+    &emsp;&emsp;yield return a;
+    &emsp;&emsp;a, b = a + b, b;
+    &emsp;}
     }
-    elif(x > 4) {
-    &emsp;println("me me big x");
-    }
-
-    func test($x, $y) &lt;- int => return x + y;
     </code>
     <script>
       SourceLight.highlight({
         selector: 'code',
-        theme: 'test-theme',
         mode: 'syclone'
       })
     </script>
