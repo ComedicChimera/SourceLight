@@ -74,13 +74,13 @@ your code area.
   });
 </script>
 ```
-
-#### Modes
-
 After writing the following, you should see that the code becomes wrapped
 in a beige-colored box.  However, there is no actually highlighting on the text
 itself.  This is because we only specified a **selector** or what regions
-we wanted to be highlighted.  To specify a language, we will need to do
+we wanted to be highlighted. 
+
+#### Modes
+To specify a language, we will need to do
 2 things.
 
  1. Include the mode.
