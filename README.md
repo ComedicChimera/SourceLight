@@ -4,7 +4,7 @@
 ## Table of Contents
  - [Introduction](#intro)
  - [Installation](#install)
- - [Basic Usage](#usage)
+ - [Usage](#usage)
  - Custom Themes
  - Custom Modes
  - How It Works
@@ -59,7 +59,7 @@ something like this:
 </html>
 ```
 
-## Basic Usage <a name="usage">
+## Usage <a name="usage">
 To enable SourceLight.js on a page, simply a the following `script` tag after
 your code area.
 
@@ -147,7 +147,7 @@ but you set the theme modifier, instead of the mode modifier.  Here is an exampl
 
 We now have JavaScript that is highlighted in the Github theme.
 
-#### A Bit More on Selectors
+#### Selectors
 
 SourceLight uses 3 selector types.  It can select by id, class, or by
 tag name.
