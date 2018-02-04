@@ -1,3 +1,10 @@
+/*
+ * SourceLight.js 1.0.0
+ * https://github.com/ComedicChimera/SourceLight.js
+ * (c) 2018 Jordan Gaines
+ * SourceLight may be freely distributed under the MIT License.
+ */
+
 function define(name, obj) {
   SourceLight.mappings[name] = obj;
 }
