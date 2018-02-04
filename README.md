@@ -83,7 +83,7 @@ we wanted to be highlighted.
 To specify a language, we will need to do
 2 things.
 
- 1. Include the mode.
+ 1. **Include the Mode**
 
     SourceLight.js describes all custom highlighters as modes. We will need
     to include the JavaScript mode in order to specify enable that kind of
@@ -97,7 +97,7 @@ To specify a language, we will need to do
     We have now included the JavaScript mode source.  Now we must tell
     SourceLight.js to use it.
 
- 2. Specify the Mode.
+ 2. **Specify the Mode**
 
     All we need to do to instruct SourceLight.js to highlight using the
     specified mode.  This is done by revising your SourceLight.js
