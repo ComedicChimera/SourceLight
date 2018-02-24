@@ -106,7 +106,7 @@ class SourceLight {
       let name = mCase.token, regex = mCase.match, sub = mCase.sub;
       if(!regex)
         throw name + "does not have a match case.";
-      let matches = text.match(mCase.single ? regex : new RegExp(regex, "g"));
+      let matches = text.match(mCase.single ? regex : new RegExp(regex, regex.flags + "g"));
       for(var match in matches) {
         match = matches[match];
         phrases[text.search(regex)] = [match, name, sub];
@@ -132,14 +132,11 @@ class SourceLight {
     let className = "sourcelight-style-" + p[1].replace(/\./g, "-");
     if(!Object.keys(theme).includes(p[1])) {
       let parents = p[1].split('.');
-      let compositeName = parents[0];
-      parents.shift();
-      for(var item in parents) {
-        item = parents[item];
-        if(Object.keys(theme).includes(compositeName)) {
-          return "<span style=\"" + theme[compositeName] + "\" class=\"" + className + "\">" + p[0] + "</span>";
+      while(parents.length > 0) {
+        if(Object.keys(theme).includes(parents.join('.'))) {
+          return "<span style=\"" + theme[parents.join('.')] + "\" class=\"" + className + "\">" + p[0] + "</span>";
         }
-        compositeName += '.' + item;
+        parents.pop();
       }
       return "<span class=\"" + className + "\">" + p[0] + "</span>";
     }
