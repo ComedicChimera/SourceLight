@@ -4,7 +4,7 @@
 ## Table of Contents
  - [Introduction](#intro)
  - [Installation](#install)
- - [Basic Usage](#usage)
+ - [Usage](#usage)
  - Custom Themes
  - Custom Modes
  - How It Works
@@ -59,7 +59,7 @@ something like this:
 </html>
 ```
 
-## Basic Usage <a name="usage">
+## Usage <a name="usage">
 To enable SourceLight.js on a page, simply a the following `script` tag after
 your code area.
 
@@ -74,16 +74,16 @@ your code area.
   });
 </script>
 ```
-
-#### Modes
-
 After writing the following, you should see that the code becomes wrapped
 in a beige-colored box.  However, there is no actually highlighting on the text
 itself.  This is because we only specified a **selector** or what regions
-we wanted to be highlighted.  To specify a language, we will need to do
+we wanted to be highlighted. 
+
+#### Modes
+To specify a language, we will need to do
 2 things.
 
- 1. Include the mode.
+ 1. **Include the Mode**
 
     SourceLight.js describes all custom highlighters as modes. We will need
     to include the JavaScript mode in order to specify enable that kind of
@@ -97,7 +97,7 @@ we wanted to be highlighted.  To specify a language, we will need to do
     We have now included the JavaScript mode source.  Now we must tell
     SourceLight.js to use it.
 
- 2. Specify the Mode.
+ 2. **Specify the Mode**
 
     All we need to do to instruct SourceLight.js to highlight using the
     specified mode.  This is done by revising your SourceLight.js
@@ -147,7 +147,7 @@ but you set the theme modifier, instead of the mode modifier.  Here is an exampl
 
 We now have JavaScript that is highlighted in the Github theme.
 
-#### A Bit More on Selectors
+#### Selectors
 
 SourceLight uses 3 selector types.  It can select by id, class, or by
 tag name.
