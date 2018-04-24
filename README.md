@@ -5,9 +5,8 @@
  - [Introduction](#intro)
  - [Installation](#install)
  - [Usage](#usage)
- - Custom Themes
- - Custom Modes
- - How It Works
+ - [Custom Themes](#themes)
+ - [Custom Modes](#modes)
 
 ## Introduction <a name="intro">
 If you have never used a syntax highlighter before, a **syntax highlight** is
@@ -165,3 +164,8 @@ tag name.
 
    This is accomplished just like selecting by class, except you replace the
    `.` with a `#` like so: `#myID`.
+
+## Custom Themes <a name='themes'>
+ 
+## Custom Modes <a name='modes'>
+ 
