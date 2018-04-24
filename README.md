@@ -5,8 +5,8 @@
  - [Introduction](#intro)
  - [Installation](#install)
  - [Usage](#usage)
- - [Custom Themes](#themes)
- - [Custom Modes](#modes)
+ - [Custom Themes](#custom-themes)
+ - [Custom Modes](#custom-modes)
 
 ## Introduction <a name="intro">
 If you have never used a syntax highlighter before, a **syntax highlight** is
@@ -165,7 +165,7 @@ tag name.
    This is accomplished just like selecting by class, except you replace the
    `.` with a `#` like so: `#myID`.
 
-## Custom Themes <a name='themes'>
+## Custom Themes <a name='custom-themes'>
 So you have seen how to use SourceLight.  Now, let's begin to look at how you can customize it to your needs.
 
 #### Defining a Theme
@@ -242,7 +242,15 @@ literal: {
 ```
 
 The code editor window always have the same constant selector to allow you to apply styles to it.
-It's name is: ` `.
+It is used like so:
+
+``` js
+code: {
+    region: {
+     
+    }
+  }
+```
 
 #### Styling
 Styles in SourceLight work almost identically to CSS styles.  You simply write the CSS style as the key/name,
@@ -298,5 +306,5 @@ literal: {
 Finally, just remember that styles must belong to some class.  Generic styling should be done through the code window 
 selector, and will not be applied if it is written up top.
 
-## Custom Modes <a name='modes'>
+## Custom Modes <a name='custom-modes'>
  
