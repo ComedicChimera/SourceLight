@@ -166,6 +166,13 @@ tag name.
    `.` with a `#` like so: `#myID`.
 
 ## Custom Themes <a name='themes'>
- 
+
+Creating a custom theme is simple.  They written as Javascript objects and structured like CSS.
+You can declare a theme using the "define" function.
+
+``` js
+define('sourcelight/themes/my_theme_name', { /* theme content */ });
+```
+
 ## Custom Modes <a name='modes'>
  
