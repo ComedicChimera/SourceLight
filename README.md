@@ -166,13 +166,137 @@ tag name.
    `.` with a `#` like so: `#myID`.
 
 ## Custom Themes <a name='themes'>
+So you have seen how to use SourceLight.  Now, let's begin to look at how you can customize it to your needs.
 
+#### Defining a Theme
 Creating a custom theme is simple.  They written as Javascript objects and structured like CSS.
 You can declare a theme using the "define" function.
 
 ``` js
-define('sourcelight/themes/my_theme_name', { /* theme content */ });
+define('sourcelight/theme/my_theme_name', { /* theme content */ });
 ```
+
+Once this function is called, your theme can then be accessed simply by the name provided at the end of the path.  In this case,
+it can be used by the name `my_theme_name`.
+
+#### Token Identifiers
+A token represents a single, highlighted entity.
+Each token is declared with a special name as specified by the mode of the language you are using.  
+The names should look something like: `comment.singleline`.  The `.` represents a **sub-class delimiter**.
+Essentially, it created a new subclass of the parent class or subclass.  In the case of `comment.singleline`, the
+sub-class delimiter is creating a sub-class of the parent class, 'comment', called 'singleline'.  Since these are classes,
+you would select them in the following manner.
+
+``` js
+comment: {
+  singleline: {
+      
+  }
+}
+```
+
+It is kind of like nesting css selectors. Now, you might find this example cumbersome, but lets say you need to highlight
+3 tokens: `string.single`, `string.double` and `string.template`.  All you would need to do to select these is the
+following:
+
+``` js
+string: {
+  single: {
+  
+  },
+  double: {
+  
+  },
+  template: {
+  
+  }
+}
+```
+
+It saves you from having to type the upper classes name(s) over and over again.
+
+It is also possible to create sub-classes within sub-classes for example:
+
+``` js
+literal: {
+  string: {
+    single: {
+  
+    },
+    double: {
+  
+    },
+    template: {
+  
+    }
+  },
+  number: {
+    float: {
+    
+    },
+    integer: {
+    
+    }
+  }
+}
+```
+
+The code editor window always have the same constant selector to allow you to apply styles to it.
+It's name is: ` `.
+
+#### Styling
+Styles in SourceLight work almost identically to CSS styles.  You simply write the CSS style as the key/name,
+and the write the style's value as, well, its value.  **Make sure to wrap both the style name and value in quotes!**
+This will prevent confusion between styles and sub-classes.
+
+Let's style the example above:
+
+``` js
+literal: {
+  string: {
+    'color': 'red',
+    single: {
+    
+    },
+    double: {
+  
+    },
+    template: {
+      'font-style': 'italics'
+    }
+  },
+  number: {
+    float: {
+      'font-weight': 'bold'
+    },
+    integer: {
+    
+    }
+  }
+}
+```
+
+And there we have it!  Now, let's clean it up.  Because styles **cascade** from their parent class downward,
+you can simple remove all the blank styles as they will receive the styling of the parent class automatically.
+
+``` js
+literal: {
+  string: {
+    'color': 'red',
+    template: {
+      'font-style': 'italics'
+    }
+  },
+  number: {
+    float: {
+      'font-weight': 'bold'
+    }
+  }
+}
+```
+
+Finally, just remember that styles must belong to some class.  Generic styling should be done through the code window 
+selector, and will not be applied if it is written up top.
 
 ## Custom Modes <a name='modes'>
  
