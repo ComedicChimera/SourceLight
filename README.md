@@ -326,10 +326,57 @@ There are two basic parts to each grammar: the regex and the token name.  They a
 define('sourcelight/mode/my-lang', [
   {
     token: 'comment.singleline',
-    regex: '#.*\n'
+    match: /#.*\n/m
   }
 ]);
 ```
 
-The token is the name, using the `.` to separate the class and sub-class(es).  The regex is regular expression
-used to match the token.
+The `token` is the name, using the `.` to separate the class and sub-class(es) ([see above](see above)).  The `match` is the regular expression used to match the token.
+
+The match catagory can be any regular expression.  However, no that the 'general' modifier is already applied.
+
+#### Match Order
+All matches are performed in the order they are declared. That allows you to write matches that may match any other pieces of code, 
+but as long as you put the specific matches first.
+
+For example:
+``` js
+{
+  token: 'comment.singleline',
+  match: /#.*\n/m
+},
+{
+  token: 'keyword',
+  match: 'del'
+}
+```
+
+Even though the `del` keyword could occur within the comment, it will not match as the comment with be matched first.
+
+#### Sub Matches
+It is also possible to sub match the initial match.  Essentially, it allows to select parts only of the specific string
+that has already been matched.  This is done with the `sub` profile.
+
+``` js
+define('sourcelight/mode/my-lang', [
+  {
+    token: 'function',
+    match: /\bdef\s+\w*\(/,
+    sub: [
+      {
+        token: 'keyword',
+        match: /def/
+      },
+      {
+        token: 'identifier',
+        match: /\s+/
+      }
+    ]
+  }
+]);
+```
+
+Again, match order applies. This works exactly the same the upper level match case(s), just on a smaller string
+
+*Note: Only one sub-match per token, but you can nest sub-matches.*
+
