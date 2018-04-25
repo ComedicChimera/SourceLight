@@ -347,7 +347,7 @@ For example:
 },
 {
   token: 'keyword',
-  match: 'del'
+  match: /\bdel\b/
 }
 ```
 
