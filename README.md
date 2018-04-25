@@ -313,7 +313,7 @@ Creating custom mode allows you create a custom highlighter for your own languag
 #### Defining the Mode
 Similarly to creating the mode, they are created with the define function.  They are stored in the mode psuedo-directory, instead of theme directory.
 
-```
+``` js
 define('sourcelight/mode/my-lang', []);
 ```
 
