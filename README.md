@@ -308,3 +308,28 @@ selector, and will not be applied if it is written up top.
 
 ## Custom Modes <a name='custom-modes'>
  
+Creating custom mode allows you create a custom highlighter for your own language.  
+
+#### Defining the Mode
+Similarly to creating the mode, they are created with the define function.  They are stored in the mode psuedo-directory, instead of theme directory.
+
+```
+define('sourcelight/mode/my-lang', []);
+```
+
+The Javascript array represents the mode itself.
+
+#### Basic Selection
+There are two basic parts to each grammar: the regex and the token name.  They are formatted like so:
+
+``` js
+define('sourcelight/mode/my-lang', [
+  {
+    token: 'comment.singleline',
+    regex: '#.*\n'
+  }
+]);
+```
+
+The token is the name, using the `.` to separate the class and sub-class(es).  The regex is regular expression
+used to match the token.
